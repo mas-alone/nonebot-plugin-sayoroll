@@ -8,7 +8,7 @@
 
 # nonebot-plugin-sayoroll
 
-_✨ NoneBot 高仿小夜roll功能 ✨_
+_✨ NoneBot 随机选择(roll)插件 ✨_
 
 
 <a href="./LICENSE">
@@ -23,7 +23,9 @@ _✨ NoneBot 高仿小夜roll功能 ✨_
 
 ## 📖 介绍
 
-高仿以前小夜bot的roll功能
+不知道怎么选择? 让bot帮你决定吧！ ^ ^
+
+(高仿以前小夜bot的roll功能)
 
 ## 💿 安装
 
@@ -68,18 +70,18 @@ _✨ NoneBot 高仿小夜roll功能 ✨_
 
 ## 🎉 使用
 ### 指令表
-`-roll`<br>
+`/roll`<br>
 直接roll会在0-100之间随机一个数字并返回(类似osu的roll)<br>
 ![1](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=f2c89a1568a512a44ee55e08d1583ed5&file=file.png)<br><br>
-`-roll [数字]`<br>
+`/roll [数字]`<br>
 带指定的数字的话则会从0到这个数字之间随机roll一个数字<br>
 ![2](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=c983dba0d1f5ebc93a9bb0f47a3d733c&file=file.png)<br><br>
-`-roll [文字]`<br>
+`/roll [文字]`<br>
 例如 **-roll 你是不是耳聋**<br>
 bot会在 **你是耳聋** ，和 **你不是耳聋** 之间随机一个并返回。<br><br>
 相同道理还有(有没有、去不去、上不上等这种 **x不x** 的规则)<br>
 ![3](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=48242d1ec881c0127197c394ed1c5461&file=file.png)<br><br>
-`-roll [参数] [参数] ...`<br>
+`/roll [参数] [参数] ...`<br>
 例如 **-roll 吃饭 睡觉 打游戏 运动 点蚊香**<br>
 bot会在 **吃饭 睡觉 打游戏 运动 点蚊香**之间随机一个并返回。<br><br>
 可以是无限多的词<br>
