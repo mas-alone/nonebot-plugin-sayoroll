@@ -12,7 +12,7 @@ _✨ NoneBot 高仿小夜roll功能 ✨_
 
 
 <a href="./LICENSE">
-    <img src="https://img.shields.io/github/license/mas_alone/nonebot-plugin-sayoroll.svg" alt="license">
+    <img src="https://img.shields.io/github/license/mas-alone/nonebot-plugin-sayoroll.svg" alt="license">
 </a>
 <a href="https://pypi.python.org/pypi/nonebot-plugin-sayoroll">
     <img src="https://img.shields.io/pypi/v/nonebot-plugin-sayoroll.svg" alt="pypi">
