@@ -71,13 +71,13 @@ _✨ NoneBot 高仿小夜roll功能 ✨_
 `-roll`
 
 直接roll会在0-100之间随机一个数字并返回(类似osu的roll)
-![](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=f2c89a1568a512a44ee55e08d1583ed5&file=file.png)
+![1](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=f2c89a1568a512a44ee55e08d1583ed5&file=file.png)
 
 
 `-roll [数字]`
 
 带指定的数字的话则会从0到这个数字之间随机roll一个数字
-![](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=c983dba0d1f5ebc93a9bb0f47a3d733c&file=file.png)
+![2](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=c983dba0d1f5ebc93a9bb0f47a3d733c&file=file.png)
 
 
 `-roll [文字]`
@@ -86,7 +86,7 @@ _✨ NoneBot 高仿小夜roll功能 ✨_
 bot会在 **你是耳聋** ，和 **你不是耳聋** 之间随机一个并返回。
 
 相同道理还有(有没有、去不去、上不上等这种 **x不x** 的规则)
-![](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=48242d1ec881c0127197c394ed1c5461&file=file.png)
+![3](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=48242d1ec881c0127197c394ed1c5461&file=file.png)
 
 
 `-roll [参数] [参数] ...`
@@ -95,4 +95,4 @@ bot会在 **你是耳聋** ，和 **你不是耳聋** 之间随机一个并返�
 bot会在 **吃饭 睡觉 打游戏 运动 点蚊香**之间随机一个并返回。
 
 可以是无限多的词
-![](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=0f8d184f4375e19ef9b7f83f356482ae&file=file.png)
+![4](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=0f8d184f4375e19ef9b7f83f356482ae&file=file.png)
