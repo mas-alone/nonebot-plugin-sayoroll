@@ -10,7 +10,7 @@ from nonebot.adapters.onebot.v11.message import Message, MessageSegment
 
 __plugin_meta__ = PluginMetadata(
     name='sayoroll',
-    description='高仿以前小夜bot的roll功能',
+    description='随机数字或随机事件',
     usage='roll[数字] / 事件1 事件2 .../ xxx要不要xxx',
     config={},
     extra={}
@@ -47,8 +47,8 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             message=MessageSegment.reply(event.message_id) + msg
         )
 
-    elif re.search('(.)(.)\\1(.*?)', args):
-        result = re.search('(.)(.)\\1(.*?)', args)
+    elif re.search('([\u4E00-\u9FA5])([\u4E00-\u9FA5])\\1(.*?)', args):
+        result = re.search('([\u4E00-\u9FA5])([\u4E00-\u9FA5])\\1(.*?)', args)
         options = [result.group()[:1], result.group()[1:]]
         msg = '我觉得' + args[:result.span()[0]].replace('我', '你') + random.choice(options) + args[result.span()[1]:]
         await roll.finish(
