@@ -82,7 +82,7 @@ bot会在 **你是耳聋** ，和 **你不是耳聋** 之间随机一个并返�
 相同道理还有(有没有、去不去、上不上等这种 **x不x** 的规则)<br>
 如果你发的是 **/roll 我是不是耳聋** <br>
 bot会把 **我** 替换成 **你** 再回复)<br>
-![3](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=1bcfe7c48f64f2a0706d6a6520377ba8&file=file.png)<br><br>
+![5](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=1bcfe7c48f64f2a0706d6a6520377ba8&file=file.png)<br><br>
 `/roll [参数] [参数] ...`<br>
 例如 **-roll 吃饭 睡觉 打游戏 运动 点蚊香**<br>
 bot会在 **吃饭 睡觉 打游戏 运动 点蚊香**之间随机一个并返回。<br><br>
