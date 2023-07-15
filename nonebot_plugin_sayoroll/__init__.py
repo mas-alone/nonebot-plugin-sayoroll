@@ -19,7 +19,7 @@ __plugin_meta__ = PluginMetadata(
 
 roll = on_command(
     'roll',
-    priority=0,
+    priority=1,
     block=False
 )
 
