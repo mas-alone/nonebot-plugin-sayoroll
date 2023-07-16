@@ -19,7 +19,7 @@ __plugin_meta__ = PluginMetadata(
 
 roll = on_command(
     'roll',
-    priority=1,
+    priority=0,
     block=False
 )
 
@@ -40,7 +40,7 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             message=MessageSegment.reply(event.message_id) + msg
         )
 
-    elif len(args.split(' ')) > 1:
+    elif len(args.split(' ')) > 1 and not re.search('([\u4E00-\u9FA5]+)还是([\u4E00-\u9FA5]+)', args):
         options = args.split(' ')
         msg = '我觉得{}会比较好'.format(random.choice(options))
         await roll.finish(
@@ -51,6 +51,13 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
         result = re.search('([\u4E00-\u9FA5])([\u4E00-\u9FA5])\\1(.*?)', args)
         options = [result.group()[:1], result.group()[1:]]
         msg = '我觉得' + args[:result.span()[0]].replace('我', '你').replace('你', '我') + random.choice(options) + args[result.span()[1]:]
+        await roll.finish(
+            message=MessageSegment.reply(event.message_id) + msg
+        )
+    elif re.search('([\u4E00-\u9FA5]+)还是([\u4E00-\u9FA5]+)', args):
+        result = re.search('([\u4E00-\u9FA5]+)还是([\u4E00-\u9FA5]+)', args)
+        options = [args[:result.span()[0]] + result.group(1) + args[result.span()[1]:], args[:result.span()[0]] + result.group(2) + args[result.span()[1]:]]
+        msg = '我觉得' + args[:result.span()[0]].replace('我', '你').replace('你', '我') + random.choice(options) + '会比较好'
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + msg
         )
