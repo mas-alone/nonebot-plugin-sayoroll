@@ -29,13 +29,39 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     args = str(args).strip()
 
     if not args:
-        msg = '你的数字是【{}】'.format(random.randint(0, 100))
+        msg = '你的数字是[{}]'.format(random.randint(0, 100))
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + msg
         )
 
     elif args.isdigit():
-        msg = '你的数字是【{}】'.format(random.randint(0, int(args)))
+        msg = '你的数字是[{}]'.format(random.randint(0, int(args)))
+        await roll.finish(
+            message=MessageSegment.reply(event.message_id) + msg
+        )
+
+    elif re.search('^(.+)还是\\1$', args):
+        await roll.finish(
+            message=MessageSegment.reply(event.message_id) + '总共就2个参数..还都相同..怎么roll都一样啊'
+        )
+
+    elif re.search('^(.+)还是(.+)$', args):
+        result = re.search('^(.+)还是(.+)$', args)
+        options = [result.group(1), result.group(2)]
+        msg = '当然是' + random.choice(options) + '咯'
+        await roll.finish(
+            message=MessageSegment.reply(event.message_id) + msg
+        )
+
+    elif len(set(args.split(' '))) == 1:
+        msg = '总共就{}个参数..还都相同..怎么roll都一样啊'.format(len(args.split(' ')))
+        await roll.finish(
+            message=MessageSegment.reply(event.message_id) + msg
+        )
+        
+    elif any(args.split(' ').count(x) >= 2 for x in set(args.split(' '))):
+        duplicate_options = [x for x in set(args.split(' ')) if args.split(' ').count(x) >= 2]
+        msg = '[{}] 参数出现次数过多,想增大概率是吧'.format(','.join(duplicate_options))
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + msg
         )
@@ -51,13 +77,6 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
         result = re.search('([\u4E00-\u9FA5])([\u4E00-\u9FA5])\\1(.*?)', args)
         options = [result.group()[:1], result.group()[1:]]
         msg = '当然是' + args[:result.span()[0]].replace('我', '你').replace('你', '我') + random.choice(options) + args[result.span()[1]:]
-        await roll.finish(
-            message=MessageSegment.reply(event.message_id) + msg
-        )
-    elif re.search('^(.+)还是(.+)$', args):
-        result = re.search('^(.+)还是(.+)$', args)
-        options = [result.group(1), result.group(2)]
-        msg = '当然是' + random.choice(options) + '咯'
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + msg
         )
