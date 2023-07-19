@@ -1,5 +1,6 @@
 import re
 import random
+import string
 
 from nonebot import on_command
 from nonebot.params import CommandArg
@@ -40,9 +41,10 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             message=MessageSegment.reply(event.message_id) + msg
         )
 
-    elif re.search('^(.+)还是\\1$', args):
+    args_without_punctuation = args.translate(str.maketrans('', '', string.punctuation))
+    if re.search('^(.+)还是\\1$', args_without_punctuation):
         await roll.finish(
-            message=MessageSegment.reply(event.message_id) + '总共就2个参数..还都相同..怎么roll都一样啊'
+        message=MessageSegment.reply(event.message_id) + '总共就2个参数..还都相同..怎么roll都一样啊'
         )
 
     elif re.search('^(.+)还是(.+)$', args):
@@ -53,18 +55,21 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             message=MessageSegment.reply(event.message_id) + msg
         )
 
-    elif len(set(args.split(' '))) == 1:
-        msg = '总共就{}个参数..还都相同..怎么roll都一样啊'.format(len(args.split(' ')))
+    args_without_punctuation = args.translate(str.maketrans('', '', string.punctuation))
+    if len(set(args_without_punctuation.split(' '))) == 1:
+        msg = '总共就{}个参数..还都相同..怎么roll都一样啊'.format(len(args_without_punctuation.split(' ')))
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + msg
         )
         
-    elif any(args.split(' ').count(x) >= 2 for x in set(args.split(' '))):
-        duplicate_options = [x for x in set(args.split(' ')) if args.split(' ').count(x) >= 2]
+    args_without_punctuation = args.translate(str.maketrans('', '', string.punctuation))
+    if any(args_without_punctuation.split(' ').count(x) >= 2 for x in set(args_without_punctuation.split(' '))):
+        duplicate_options = [x for x in set(args_without_punctuation.split(' ')) if args_without_punctuation.split(' ').count(x) >= 2]
         msg = '[{}] 参数出现次数过多,想增大概率是吧'.format(','.join(duplicate_options))
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + msg
         )
+
 
     elif len(args.split(' ')) > 1 and not re.search('([\u4E00-\u9FA5]+)还是([\u4E00-\u9FA5]+)', args):
         options = args.split(' ')
