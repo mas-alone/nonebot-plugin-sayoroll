@@ -45,6 +45,15 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             message=MessageSegment.reply(event.message_id) + Message(msg)
         )
 
+    elif re.search('(.)(.)\\1(.*?)', args):
+        result = re.search('(.)(.)\\1(.*?)', args)
+        options = [result.group()[:1], result.group()[1:]]
+        temp_str = args[:result.span()[0]].replace('我', 'temp').replace('你', '我').replace('temp', '你')
+        msg = '我觉得' + temp_str + random.choice(options) + args[result.span()[1]:]
+        await roll.finish(
+            message=MessageSegment.reply(event.message_id) + Message(msg)
+        )
+
     args = normalize_str(args)
     args_without_punctuation = args.translate(str.maketrans('', '', string.punctuation))
     if len(args_without_punctuation.split(' ')) == 1:
