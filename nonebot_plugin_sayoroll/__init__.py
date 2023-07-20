@@ -47,6 +47,11 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
 
     args = normalize_str(args)
     args_without_punctuation = args.translate(str.maketrans('', '', string.punctuation))
+    if len(args_without_punctuation.split(' ')) == 1:
+        await roll.finish(
+            message=MessageSegment.reply(event.message_id) + '未匹配到参数！'
+        )
+        return
     if re.search('^(.+)还是\\1$', args_without_punctuation):
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + '总共就2个参数..还都相同..怎么roll都一样啊'
