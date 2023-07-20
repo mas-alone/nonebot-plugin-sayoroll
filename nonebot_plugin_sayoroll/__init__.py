@@ -80,13 +80,6 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             message=MessageSegment.reply(event.message_id) + Message(msg)
         )
 
-    elif re.search('([\u4E00-\u9FA5])([\u4E00-\u9FA5])\\1(.*?)', args) and not re.search('^([\u4E00-\u9FA5]+)还是([\u4E00-\u9FA5]+)$', args):
-        result = re.search('([\u4E00-\u9FA5])([\u4E00-\u9FA5])\\1(.*?)', args)
-        options = [result.group()[:1], result.group()[1:]]
-        msg = '当然是' + args[:result.span()[0]].replace('我', '你').replace('你', '我') + random.choice(options) + args[result.span()[1]:]
-        await roll.finish(
-            message=MessageSegment.reply(event.message_id) + Message(msg)
-        )
     else:
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + '未匹配到参数！'
