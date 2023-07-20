@@ -45,11 +45,10 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             message=MessageSegment.reply(event.message_id) + Message(msg)
         )
 
-    elif re.search('(.)(.)\\1(.*?)', args):
-        result = re.search('(.)(.)\\1(.*?)', args)
+    elif re.search(r'([\u4e00-\u9fff])([\u4e00-\u9fff])\1(.*?)', args):
+        result = re.search(r'([\u4e00-\u9fff])([\u4e00-\u9fff])\1(.*?)', args)
         options = [result.group()[:1], result.group()[1:]]
-        temp_str = args[:result.span()[0]].replace('我', 'temp').replace('你', '我').replace('temp', '你')
-        msg = '我觉得' + temp_str + random.choice(options) + args[result.span()[1]:]
+        msg = '我觉得' + args[:result.span()[0]].replace('我', 'temp').replace('你', '我').replace('temp', '你') + random.choice(options) + args[result.span()[1]:]
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + Message(msg)
         )
