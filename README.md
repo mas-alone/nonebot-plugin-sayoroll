@@ -76,7 +76,7 @@ _✨ NoneBot 随机选择(roll)插件 ✨_
 `/roll [数字]`<br>
 带指定的数字的话则会从0到这个数字之间随机roll一个数字<br>
 ![2](https://www.showdoc.com.cn/server/api/attachment/visitFile?sign=c983dba0d1f5ebc93a9bb0f47a3d733c&file=file.png)<br><br>
-`/roll [文字]`<br>
+`/roll [A不A/A没A]`<br>
 例如 **-roll 你是不是耳聋**<br>
 bot会在 **我觉得我是耳聋** ，和 **我觉得我不是耳聋** 之间随机一个并返回。<br>
 bot会把 **你** 替换成 **我** 再回复)<br>
