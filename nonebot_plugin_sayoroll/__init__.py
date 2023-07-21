@@ -56,47 +56,51 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             message=MessageSegment.reply(event.message_id) + Message(msg)
         )
 
-    args = normalize_str(args)
-    args_without_punctuation = args.translate(str.maketrans('', '', string.punctuation))
-    if len(args_without_punctuation.split(' ')) == 1:
-        await roll.finish(
-            message=MessageSegment.reply(event.message_id) + '未匹配到参数！'
-        )
-        return
-    if re.search('^(.+)还是\\1$', args_without_punctuation):
+    elif re.search(r'(.+)还是\1', args):
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + '总共就2个参数..还都相同..怎么roll都一样啊'
         )
 
-    elif re.search('^(.+)还是(.+)$', args):
-        result = re.search('^(.+)还是(.+)$', args)
+    elif re.search(r'(.+)还是(.+)', args):
+        result = re.search(r'(.+)还是(.+)', args)
         options = [result.group(1), result.group(2)]
         msg = '当然是' + random.choice(options) + '咯'
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + Message(msg)
         )
 
-    if len(set(args_without_punctuation.split(' '))) == 1:
-        msg = '总共就{}个参数..还都相同..怎么roll都一样啊'.format(len(args_without_punctuation.split(' ')))
-        await roll.finish(
-            message=MessageSegment.reply(event.message_id) + Message(msg)
-        )
-
-    if any(args_without_punctuation.split(' ').count(x) >= 2 for x in set(args_without_punctuation.split(' '))):
-        duplicate_options = [x for x in set(args_without_punctuation.split(' ')) if args_without_punctuation.split(' ').count(x) >= 2]
-        msg = '[{}] 参数出现次数过多,想增大概率是吧'.format(','.join(duplicate_options))
-        await roll.finish(
-            message=MessageSegment.reply(event.message_id) + Message(msg)
-        )
-
-    options = [x for x in args.split(' ') if x.strip()]
-    if len(options) > 1 and not re.search('([\u4E00-\u9FA5]+)还是([\u4E00-\u9FA5]+)', args):
-        msg = '当然是{}咯'.format(random.choice(options))
-        await roll.finish(
-            message=MessageSegment.reply(event.message_id) + Message(msg)
-        )
-
     else:
-        await roll.finish(
-            message=MessageSegment.reply(event.message_id) + '未匹配到参数！'
-        )
+        args = normalize_str(args)
+        args_without_punctuation = args.translate(str.maketrans('', '', string.punctuation))
+        
+        if len(args_without_punctuation.split(' ')) == 1:
+            await roll.finish(
+                message=MessageSegment.reply(event.message_id) + '未匹配到参数！'
+            )
+            return
+
+        if len(set(args_without_punctuation.split(' '))) == 1:
+            msg = '总共就{}个参数..还都相同..怎么roll都一样啊'.format(len(args_without_punctuation.split(' ')))
+            await roll.finish(
+                message=MessageSegment.reply(event.message_id) + Message(msg)
+            )
+
+        if any(args_without_punctuation.split(' ').count(x) >= 2 for x in set(args_without_punctuation.split(' '))):
+            duplicate_options = [x for x in set(args_without_punctuation.split(' ')) if args_without_punctuation.split(' ').count(x) >= 2]
+            msg = '[{}] 参数出现次数过多,想增大概率是吧'.format(','.join(duplicate_options))
+            await roll.finish(
+                message=MessageSegment.reply(event.message_id) + Message(msg)
+            )
+
+        options = [x for x in args.split(' ') if x.strip()]
+        
+        if len(options) > 1:
+            msg = '当然是{}咯'.format(random.choice(options))
+            await roll.finish(
+                message=MessageSegment.reply(event.message_id) + Message(msg)
+            )
+
+        else:
+            await roll.finish(
+                message=MessageSegment.reply(event.message_id) + '未匹配到参数！'
+            )
