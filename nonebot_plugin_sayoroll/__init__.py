@@ -13,7 +13,7 @@ from nonebot.adapters.onebot.v11.message import Message, MessageSegment
 __plugin_meta__ = PluginMetadata(
     name='sayoroll',
     type='application',
-    homepage='https://github.com/mas-alone/nonebot-plugin-sayoroll'
+    homepage='https://github.com/mas-alone/nonebot-plugin-sayoroll',
     description='随机数字或随机事件',
     usage='roll[数字] / 事件1 事件2 .../ xxx要不要xxx/ xxx还是xxx',
     config={},
