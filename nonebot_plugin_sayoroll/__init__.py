@@ -42,7 +42,11 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
         )
 
     elif args.isdigit():
-        msg = '你的数字是[{}]'.format(random.randint(0, int(args)))
+        num = int(args)
+        if num > 99999:
+            msg = '数字太大了，你真的需要这么大的随机数吗？'
+        else:
+            msg = '你的数字是[{}]'.format(random.randint(0, num))
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + Message(msg)
         )
