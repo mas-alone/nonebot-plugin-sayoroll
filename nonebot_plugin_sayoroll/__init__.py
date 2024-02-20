@@ -69,9 +69,8 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
 
 
     elif re.search(r'(.+)还是(.+)', args):
-        result = re.search(r'(.+)还是(.+)', args)
-        options = [result.group(1), result.group(2)]
-        msg = '当然是' + random.choice(options) + '咯'
+        options = re.split(r'还是', args)
+        msg = '当然是{}咯'.format(random.choice(options))
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + Message(msg)
         )
