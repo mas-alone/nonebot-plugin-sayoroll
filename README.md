@@ -71,28 +71,16 @@ _✨ NoneBot 随机选择(roll)插件 ✨_
 ## 🎉 使用
 ### 指令表
 `/roll`<br>
-直接roll会在0-100之间随机一个数字并返回(类似osu的roll)<br>
-![1](https://cdn.hiosu.com/20230721/hiosu-1.4cs2l31rvmk0.webp)<br><br>
+直接roll会在0-100之间随机一个数字并返回(类似osu的roll)<br><br>
 `/roll [数字]`<br>
-带指定的数字的话则会从0到这个数字之间随机roll一个数字<br>
-![2](https://cdn.hiosu.com/20230721/hiosu-2.74xfh0v0u5g0.webp)<br><br>
-`/roll [A不A/A没A]`<br>
-例如 **/roll 你是不是耳聋**<br>
-bot会在 **我是耳聋** ，和 **我不是耳聋** 之间随机一个并返回。<br>
-如果是 **你** 开头，那么bot回复的时候就不会带 **我觉得** 这三个字<br>
-并且把 **你** 替换成 **我** 再回复<br>
-![3](https://cdn.hiosu.com/20230721/hiosu-3.3czdhx39c6w0.webp)<br>
-相同道理还有(有没有、去不去、上不上等这种 **x不x** 的规则)<br><br>
-
-如果你发的是 **/roll 我是不是耳聋** <br>
-bot会在 **我觉得你不是耳聋** 和 **我觉得你是耳聋** 之间随机一个并返回。<br>
-并且把 **我** 替换成 **你** 再回复)<br>
-![4](https://cdn.hiosu.com/20230721/hiosu-4.4r9tz0zimew0.webp)<br><br>
-`/roll [xx还是xx还是xx] ...`<br>
+带指定的数字的话则会从0到这个数字之间随机roll一个数字<br><br>
+`/roll [x不x/x没x]`<br>
+例如 **/roll 我是不是耳聋** <br>
+bot会在 **我觉得你不是耳聋** 和 **我觉得你是耳聋** 之间随机一个并返回。<br><br>
+`/roll [xxx还是xxx] ...`<br>
 例如 **/roll 今晚刷pp还是摆烂** <br>
 bot会在 **当然是今晚刷pp咯** 和 **当然是摆烂咯** 之间随机一个并返回。只允许两个词<br><br>
 `/roll [参数] [参数] ...`<br>
 例如 **/roll 吃饭 睡觉 打游戏 运动 点蚊香**<br>
 bot会在 **吃饭 睡觉 打游戏 运动 点蚊香**之间随机一个并返回。<br><br>
 可以是无限多的词<br>
-![5](https://cdn.hiosu.com/20230721/hiosu-5.38sfgsba7j80.webp)
