@@ -59,7 +59,7 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             message=MessageSegment.reply(event.message_id) + Message(msg)
         )
 
-    elif re.search(r'(\b.+?\b)还是\1', args):
+    elif re.search(r'(.+)还是\1', args):
         await roll.finish(
             message=MessageSegment.reply(event.message_id) + '总共就2个参数..还都相同..怎么roll都一样啊'
         )
