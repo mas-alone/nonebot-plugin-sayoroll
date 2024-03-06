@@ -31,10 +31,16 @@ roll = on_command(
 def normalize_str(s):
     return unicodedata.normalize('NFKC', s)
 
+blocked_words = ["打胶"]
 @roll.handle()
 async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     args = str(args).strip()
-
+    blocked = [word for word in blocked_words if word in user_input]
+    if blocked:
+        await roll_suffix.send(
+            message=MessageSegment.reply(event.message_id) + '[{}] 为屏蔽词'.format('] ['.join(blocked))
+        )
+        return
     if not args:
         msg = '{}'.format(random.randint(0, 100))
         await roll.finish(
