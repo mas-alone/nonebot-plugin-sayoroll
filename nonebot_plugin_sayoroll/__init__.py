@@ -37,7 +37,7 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     args = str(args).strip()
     blocked = [word for word in blocked_words if word in user_input]
     if blocked:
-        await roll_suffix.send(
+        await roll.finish(
             message=MessageSegment.reply(event.message_id) + '[{}] 为屏蔽词'.format('] ['.join(blocked))
         )
         return
