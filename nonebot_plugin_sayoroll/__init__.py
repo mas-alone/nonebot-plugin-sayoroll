@@ -3,12 +3,12 @@ import random
 import unicodedata
 import string
 
-from nonebot import on_command, require
+from nonebot import on_command, require, on_regex
 from nonebot.internal.adapter import Message
 from nonebot.params import CommandArg
 from nonebot.plugin import PluginMetadata, inherit_supported_adapters
 
-require('nonebot-plugin-alconna')
+require('nonebot_plugin_alconna')
 from nonebot_plugin_alconna import UniMessage
 
 __plugin_meta__ = PluginMetadata(
@@ -22,10 +22,11 @@ __plugin_meta__ = PluginMetadata(
     ),
 )
 
+
 roll = on_command(
     'roll',
     priority=1,
-    block=True
+    block=False
 )
 
 
@@ -34,10 +35,26 @@ def normalize_str(s):
 
 
 blocked_words = ["打胶"]
+roll_suffix = on_regex(r'[!！/]roll.*概率$', priority=2)
+
+
+@roll_suffix.handle()
+async def _(args: Message = CommandArg()):
+    user_input = args.extract_plain_text().replace('我', '你').replace('!roll', '').replace('！roll', '').replace('/roll', '')
+    blocked = [word for word in blocked_words if word in args]
+    if blocked:
+        await UniMessage.text('[{}] 为屏蔽词'.format('] ['.join(blocked))).send(reply_to=True)
+        return
+    probability = random.uniform(0.01, 100.00)
+    msg = '{}为：{:.2f}%'.format(user_input, probability)
+    await UniMessage.text(msg).send(reply_to=True)
 
 
 @roll.handle()
 async def _(args: Message = CommandArg()):
+    user_input = args.extract_plain_text().strip()
+    if user_input.endswith('概率'):
+        return
     args = args.extract_plain_text().strip()
     blocked = [word for word in blocked_words if word in args]
     if blocked:
