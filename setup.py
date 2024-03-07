@@ -19,7 +19,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'nonebot2>=2.0.0rc3',
-        'nonebot-adapter-onebot>=2.0.0b1'
+        'nonebot2>=2.2.0',
+        'nonebot-adapter-onebot>=2.0.0b1',
+        'nonebot-plugin-alconna>=0.38.2'
     ]
 )
