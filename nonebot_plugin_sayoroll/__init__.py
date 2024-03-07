@@ -25,8 +25,8 @@ __plugin_meta__ = PluginMetadata(
 
 roll = on_command(
     'roll',
-    priority=1,
-    block=False
+    priority=2,
+    block=True
 )
 
 
@@ -35,7 +35,7 @@ def normalize_str(s):
 
 
 blocked_words = ["打胶"]
-roll_suffix = on_regex(r'[!！/]roll.*概率$', priority=2)
+roll_suffix = on_regex(r'[!！/]roll.*概率$', priority=1, block=True)
 
 
 @roll_suffix.handle()
