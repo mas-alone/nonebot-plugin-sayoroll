@@ -41,7 +41,7 @@ roll_suffix = on_regex(r'[!！/]roll.*概率$', priority=1, block=True)
 @roll_suffix.handle()
 async def _(args: Message = CommandArg()):
     user_input = args.extract_plain_text().replace('我', '你').replace('!roll', '').replace('！roll', '').replace('/roll', '')
-    blocked = [word for word in blocked_words if word in args]
+    blocked = [word for word in blocked_words if word in user_input]
     if blocked:
         await UniMessage.text('[{}] 为屏蔽词'.format('] ['.join(blocked))).send(reply_to=True)
         return
@@ -56,7 +56,7 @@ async def _(args: Message = CommandArg()):
     if user_input.endswith('概率'):
         return
     args = args.extract_plain_text().strip()
-    blocked = [word for word in blocked_words if word in args]
+    blocked = [word for word in blocked_words if word in user_input]
     if blocked:
         await UniMessage.text('[{}] 为屏蔽词'.format('] ['.join(blocked))).send(reply_to=True)
         return
