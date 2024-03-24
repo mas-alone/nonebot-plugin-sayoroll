@@ -72,7 +72,7 @@ async def _(args: Message = CommandArg()):
         result = re.search(r'([\u4e00-\u9fff])[不没].*?\1(.*?)', args)
         options = [result.group()[:1], result.group()[1:]]
         msg = '我觉得' + args[:result.span()[0]].replace('我', 'temp').replace('temp', '你') + random.choice(
-            options) + args[result.span()[1]:]
+        options) + args[result.span()[1]:].replace('我', 'temp').replace('temp', '你')
     elif re.search(r'(.+)还是\1', args):
         msg = '总共就2个参数..还都相同..怎么roll都一样啊'
     elif re.search(r'(.+)还是(.+)', args):
