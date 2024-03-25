@@ -1,5 +1,6 @@
 import re
 import random
+import difflib
 from typing import List
 import unicodedata
 import string
@@ -82,31 +83,21 @@ async def _(args: Message = CommandArg()):
             msg = '数字太大了，你真的需要这么大的随机数吗？'
         else:
             msg = '{}'.format(random.randint(1, num))
-    elif re.search(r'([\u4e00-\u9fff])[不没].*?\1(.*?)', args):
-        result = re.search(r'([\u4e00-\u9fff])[不没].*?\1(.*?)', args)
-        options = [result.group()[:1], result.group()[1:]]
-        first_params = args[:result.span()[0]].replace('我', 'temp').replace('temp', '你')
-        second_params = args[result.span()[1]:].replace('我', 'temp').replace('temp', '你')
-        if first_params == second_params:
-            msg = '总共就{}个参数..还都相同..怎么roll都一样啊'.format(len(options))
-        else:
-            msg = '我觉得'
-            msg += first_params
-            msg += random.choice(options)
-            msg += second_params
-    elif re.search(r'(.+)还是\1', args):
-        msg = '总共就2个参数..还都相同..怎么roll都一样啊'
     elif re.search(r'(.+)还是(.+)', args):
         options = re.split(r'还是', args)
-        msg = '当然是{}咯'.format(random.choice(options))
-        msg = msg.replace('我', 'temp').replace('temp', '你')
+        similarity = difflib.SequenceMatcher(None, options[0].lower(), options[1].lower()).ratio()
+        if similarity > 0.8:
+            msg = '总共就2个参数..还这么相似..怎么roll都一样啊'
+        else:
+            msg = '当然是{}咯'.format(random.choice(options))
+            msg = msg.replace('我', 'temp').replace('temp', '你')
     else:
         args = normalize_str(args)
         args_without_punctuation = args.translate(str.maketrans('', '', string.punctuation))
         if len(args_without_punctuation.split(' ')) == 1:
             msg = '未匹配到参数！'
         elif len(set(args_without_punctuation.split(' '))) == 1:
-            msg = '总共就{}个参数..还都相同..怎么roll都一样啊'.format(len(args_without_punctuation.split(' ')))
+            msg = '总共就{}个参数..还这么相似..怎么roll都一样啊'.format(len(args_without_punctuation.split(' ')))
         elif any(args_without_punctuation.split(' ').count(x) >= 2 for x in set(args_without_punctuation.split(' '))):
             duplicate_options = [x for x in set(args_without_punctuation.split(' ')) if
                                  args_without_punctuation.split(' ').count(x) >= 2]
