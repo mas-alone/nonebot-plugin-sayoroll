@@ -96,16 +96,14 @@ async def _(args: Message = CommandArg()):
         args_without_punctuation = args.translate(str.maketrans('', '', string.punctuation))
         if len(args_without_punctuation.split(' ')) == 1:
             msg = '未匹配到参数！'
-        elif len(set(args_without_punctuation.split(' '))) == 1:
-            msg = '总共就{}个参数..还这么相似..怎么roll都一样啊'.format(len(args_without_punctuation.split(' ')))
-        elif any(args_without_punctuation.split(' ').count(x) >= 2 for x in set(args_without_punctuation.split(' '))):
-            duplicate_options = [x for x in set(args_without_punctuation.split(' ')) if
-                                 args_without_punctuation.split(' ').count(x) >= 2]
-            msg = '[{}] 出现次数过多,想增大概率是吧'.format(','.join(duplicate_options))
         else:
             options = [x for x in args.split(' ') if x.strip()]
             if len(options) > 1:
-                msg = '当然是{}咯'.format(random.choice(options))
+                similarities = [difflib.SequenceMatcher(None, option1.lower(), option2.lower()).ratio() for option1 in options for option2 in options if option1 != option2]
+                if any(similarity > 0.8 for similarity in similarities):
+                    msg = '总共就{}个参数..还这么相似..怎么roll都一样啊'.format(len(options))
+                else:
+                    msg = '当然是{}咯'.format(random.choice(options))
             else:
                 msg = '未匹配到参数！'
     await UniMessage.text(msg).send(reply_to=True)
