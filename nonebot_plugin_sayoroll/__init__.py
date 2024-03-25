@@ -1,7 +1,10 @@
 import re
 import random
+from typing import List
 import unicodedata
 import string
+import json
+from pathlib import Path
 
 from nonebot import on_command, require, on_regex
 from nonebot.internal.adapter import Message
@@ -19,9 +22,8 @@ __plugin_meta__ = PluginMetadata(
     usage='roll[数字] / 事件1 事件2 .../ xxx要不要xxx/ xxx还是xxx',
     supported_adapters=inherit_supported_adapters(
         "nonebot_plugin_alconna"
-    ),
+    )
 )
-
 
 roll = on_command(
     'roll',
@@ -29,20 +31,31 @@ roll = on_command(
     block=True
 )
 
+roll_suffix = on_regex(r'[!！/]roll.*概率$', priority=1, block=True)
+
 
 def normalize_str(s):
     return unicodedata.normalize('NFKC', s)
 
 
-blocked_words = ["打胶"]
-roll_suffix = on_regex(r'[!！/]roll.*概率$', priority=1, block=True)
+def get_blocked_words() -> List:
+    words_path = Path(__file__).parent / 'words.json'
+    if not words_path.exists():
+        with open(words_path.absolute(), 'w', encoding='utf-8') as f:
+            json.dump([], f, ensure_ascii=False)
+        return []
+    else:
+        with open(words_path.absolute(), 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return data
 
 
 @roll_suffix.handle()
 async def _(args: Message = CommandArg()):
-    user_input = args.extract_plain_text().replace('我', '你').replace('!roll', '').replace('！roll', '').replace('/roll', '')
-    blocked = [word for word in blocked_words if word in user_input]
-    if blocked:
+    user_input = args.extract_plain_text()
+    user_input = user_input.replace('我', '你').replace('!roll', '').replace('！roll', '').replace('/roll', '')
+    blocked = re.findall('|'.join(get_blocked_words()), user_input, re.IGNORECASE)
+    if len(blocked) > 0:
         await UniMessage.text('[{}] 为屏蔽词'.format('] ['.join(blocked))).send(reply_to=True)
         return
     probability = random.uniform(0.01, 100.00)
@@ -56,28 +69,37 @@ async def _(args: Message = CommandArg()):
     if user_input.endswith('概率'):
         return
     args = args.extract_plain_text().strip()
-    blocked = [word for word in blocked_words if word in user_input]
-    if blocked:
+
+    blocked = re.findall('|'.join(get_blocked_words()), user_input, re.IGNORECASE)
+    if len(blocked) > 0:
         await UniMessage.text('[{}] 为屏蔽词'.format('] ['.join(blocked))).send(reply_to=True)
         return
     if not args:
-        msg = '{}'.format(random.randint(0, 100))
+        msg = '{}'.format(random.randint(1, 100))
     elif args.isdigit():
         num = int(args)
         if num > 99999:
             msg = '数字太大了，你真的需要这么大的随机数吗？'
         else:
-            msg = '{}'.format(random.randint(0, num))
+            msg = '{}'.format(random.randint(1, num))
     elif re.search(r'([\u4e00-\u9fff])[不没].*?\1(.*?)', args):
         result = re.search(r'([\u4e00-\u9fff])[不没].*?\1(.*?)', args)
         options = [result.group()[:1], result.group()[1:]]
-        msg = '我觉得' + args[:result.span()[0]].replace('我', 'temp').replace('temp', '你') + random.choice(
-        options) + args[result.span()[1]:].replace('我', 'temp').replace('temp', '你')
+        first_params = args[:result.span()[0]].replace('我', 'temp').replace('temp', '你')
+        second_params = args[result.span()[1]:].replace('我', 'temp').replace('temp', '你')
+        if first_params == second_params:
+            msg = '总共就{}个参数..还都相同..怎么roll都一样啊'.format(len(options))
+        else:
+            msg = '我觉得'
+            msg += first_params
+            msg += random.choice(options)
+            msg += second_params
     elif re.search(r'(.+)还是\1', args):
         msg = '总共就2个参数..还都相同..怎么roll都一样啊'
     elif re.search(r'(.+)还是(.+)', args):
         options = re.split(r'还是', args)
         msg = '当然是{}咯'.format(random.choice(options))
+        msg = msg.replace('我', 'temp').replace('temp', '你')
     else:
         args = normalize_str(args)
         args_without_punctuation = args.translate(str.maketrans('', '', string.punctuation))
