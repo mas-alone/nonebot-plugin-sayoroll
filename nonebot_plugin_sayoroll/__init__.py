@@ -7,7 +7,7 @@ import string
 import json
 from pathlib import Path
 
-from nonebot import on_command, require, on_regex
+from nonebot import on_command, require, on_endswith
 from nonebot.internal.adapter import Message
 from nonebot.params import CommandArg
 from nonebot.plugin import PluginMetadata, inherit_supported_adapters
@@ -32,7 +32,7 @@ roll = on_command(
     block=True
 )
 
-roll_suffix = on_regex(r'[!！/]roll.*概率$', priority=1, block=True)
+roll_suffix = on_endswith(("概率"))
 
 
 def normalize_str(s):
@@ -54,7 +54,7 @@ def get_blocked_words() -> List:
 @roll_suffix.handle()
 async def _(args: Message = CommandArg()):
     user_input = args.extract_plain_text()
-    user_input = user_input.replace('我', '你').replace('!roll', '').replace('！roll', '').replace('/roll', '')
+    user_input = user_input.replace('我', '你')
     blocked = re.findall('|'.join(get_blocked_words()), user_input, re.IGNORECASE)
     if len(blocked) > 0:
         await UniMessage.text('[{}] 为屏蔽词'.format('] ['.join(blocked))).send(reply_to=True)
@@ -67,8 +67,6 @@ async def _(args: Message = CommandArg()):
 @roll.handle()
 async def _(args: Message = CommandArg()):
     user_input = args.extract_plain_text().strip()
-    if user_input.endswith('概率'):
-        return
     args = args.extract_plain_text().strip()
 
     blocked = re.findall('|'.join(get_blocked_words()), user_input, re.IGNORECASE)
