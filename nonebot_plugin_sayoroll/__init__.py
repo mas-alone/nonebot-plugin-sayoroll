@@ -110,7 +110,7 @@ async def _(args: Message = CommandArg()):
         else:
             options = [x for x in args.split(' ') if x.strip()]
             if len(options) > 1:
-                similarities = [difflib.SequenceMatcher(None, option1.lower(), option2.lower()).ratio() for option1 in options for option2 in options if option1 != option2]
+                similarities = [difflib.SequenceMatcher(None, option1.lower(), option2.lower()).ratio() for i, option1 in enumerate(options) for option2 in options[i+1:]]
                 if any(similarity > 0.8 for similarity in similarities):
                     msg = '总共就{}个参数..还这么相似..怎么roll都一样啊'.format(len(options))
                 else:
