@@ -41,10 +41,14 @@ def normalize_str(s):
 
 def get_blocked_words() -> List:
     words_path = Path(__file__).parent / 'words.json'
+    default_data = [
+        "打胶",
+        "傻逼"
+    ]
     if not words_path.exists():
         with open(words_path.absolute(), 'w', encoding='utf-8') as f:
-            json.dump([], f, ensure_ascii=False)
-        return []
+            json.dump(default_data, f, ensure_ascii=False)
+        return default_data
     else:
         with open(words_path.absolute(), 'r', encoding='utf-8') as f:
             data = json.load(f)
